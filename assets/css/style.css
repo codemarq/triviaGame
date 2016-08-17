@@ -1,5 +1,10 @@
 body {
-	background-image: url('../images/pub2.jpg');
+	background-image: url('../images/congruent_pentagon.png');
 	background-size: cover;
 	background-repeat: no-repeat;
+}
+
+.jumbotron {
+	text-align: center;
+	color: ;
 }
