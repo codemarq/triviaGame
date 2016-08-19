@@ -8,7 +8,7 @@ $(document).ready(function () {
 	// score
 
 
-
+	// question object array
 
 
 
