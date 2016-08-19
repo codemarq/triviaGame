@@ -14,6 +14,7 @@ $(document).ready(function () {
 
 	// question and answer variables
 	var multChoice = [];
+	var currentQuestion = 0;
 
 
 	// question object array
@@ -62,10 +63,31 @@ $(document).ready(function () {
 
 	// helper functions
 
+	// write question function
+	var questionWrite = function () {
+		// write question
+		$('#questionDiv').html('<h2>' + trivia[currentQuestion].question + '</h2>');
+		answerWrite();
+	}
+
+	var answerWrite = function () {
+		for (var i = 0; i < answers.length; i++) {
+			$('#answersDiv').html(answer)
+		}
+		
+	}
 	// Timer
 	// Timer run function
 	var start = function() {
+		// starts timer counter
 		counter = setInterval(countDown, 1000);
+
+		// clear startTitle
+		$('#startTitle').empty();
+
+		//write question
+		questionWrite();
+		
 	};
 
 	// Timer countdown function
@@ -92,6 +114,8 @@ $(document).ready(function () {
 	var reset = function () {
 		timerNumber = 30;
 		$('#timerDiv').empty();
+		$('#questionDiv').empty();
+		$('#answersDiv').empty();
 	};
 
 	// click handlers	
