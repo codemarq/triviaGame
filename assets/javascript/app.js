@@ -63,6 +63,15 @@ $(document).ready(function () {
 
 	// helper functions
 
+	// create random array of answers --Work on this
+	var answers = [];
+	for (var i = 0; i < answers.length; i++) {
+		var a = trivia[currentQuestion].incorrect[i]
+
+		answers.push(trivia.a[i]);
+
+	}
+
 	// write question function
 	var questionWrite = function () {
 		// write question
@@ -113,6 +122,7 @@ $(document).ready(function () {
 	// reset function
 	var reset = function () {
 		timerNumber = 30;
+		answers = [];
 		$('#timerDiv').empty();
 		$('#questionDiv').empty();
 		$('#answersDiv').empty();
