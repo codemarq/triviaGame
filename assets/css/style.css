@@ -10,3 +10,8 @@ body {
 	height: 100%;
 
 }
+
+#answersDiv .btn {
+	background-color: #99ffcc;
+	border: solid #ccccb3 2px;
+}

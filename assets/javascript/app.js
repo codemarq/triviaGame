@@ -14,7 +14,7 @@ $(document).ready(function () {
 
 	// question and answer variables
 	var multChoice = [];
-	var currentQuestion = 0;
+	var current = 0;
 
 
 	// question object array
@@ -65,26 +65,25 @@ $(document).ready(function () {
 
 	// create random array of answers --Work on this
 	var answers = [];
-	for (var i = 0; i < answers.length; i++) {
-		var a = trivia[currentQuestion].incorrect[i]
-
-		answers.push(trivia.a[i]);
-
-	}
+	answers.push(trivia[current].correct);
+	
+	for (var i = 0; i < 3; i++) {
+		answers.push(trivia[current].incorrect[i]);
+	};
 
 	// write question function
 	var questionWrite = function () {
 		// write question
-		$('#questionDiv').html('<h2>' + trivia[currentQuestion].question + '</h2>');
+		$('#questionDiv').html('<h2>' + trivia[current].question + '</h2>');
 		answerWrite();
-	}
+	};
 
 	var answerWrite = function () {
 		for (var i = 0; i < answers.length; i++) {
-			$('#answersDiv').html(answer)
+			$('#answersDiv').append('<div class="btn col-lg-12" value="' + i + '"> <h3>' + answers[i] + '</h3></div>');
 		}
-		
-	}
+	};
+
 	// Timer
 	// Timer run function
 	var start = function() {
@@ -104,7 +103,7 @@ $(document).ready(function () {
 		// decrement timerNumber
 		timerNumber --;
 		// write timer to html timerDiv
-		$('#timerDiv').html('<h2>' + timerNumber + '</h2>');
+		$('#timerDiv').html('<h2> Time Remaining: ' + timerNumber + '</h2>');
 
 		// when timer reaches 0
 		if (timerNumber == 0) {
@@ -123,6 +122,7 @@ $(document).ready(function () {
 	var reset = function () {
 		timerNumber = 30;
 		answers = [];
+		current = 0;
 		$('#timerDiv').empty();
 		$('#questionDiv').empty();
 		$('#answersDiv').empty();
@@ -133,6 +133,15 @@ $(document).ready(function () {
 	$('#stop').on('click', stop);
 	$('#reset').on('click', reset);
 
+	//check answer
+	$('#answersDiv .btn').click(function () {
+		var clicked = $(this);
+		var value = clicked.attr('value');
+		choice = answers[value];
+
+		if (choice == trivia[current].correct) {
+
+		}
 
 	// try to redo it with trivia api
 
