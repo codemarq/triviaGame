@@ -80,7 +80,7 @@ $(document).ready(function () {
 
 	var answerWrite = function () {
 		for (var i = 0; i < answers.length; i++) {
-			$('#answersDiv').append('<div class="btn col-lg-12" value="' + i + '"> <h3>' + answers[i] + '</h3></div>');
+			$('#answersDiv').append('<div class="btn col-lg-12" value="' + i + '"><h3>' + answers[i] + '</h3></div>');
 		}
 	};
 
@@ -108,7 +108,7 @@ $(document).ready(function () {
 		// when timer reaches 0
 		if (timerNumber == 0) {
 			// stop
-			stopTimer();
+			stop();
 			// interact with game over
 		}
 	};
@@ -134,15 +134,41 @@ $(document).ready(function () {
 	$('#reset').on('click', reset);
 
 	//check answer
-	$('#answersDiv .btn').click(function () {
+	$('#answersDiv').click(function () {
 		var clicked = $(this);
-		var value = clicked.attr('value');
+		var value = clicked.attr("value");
+		console.log(value);
 		choice = answers[value];
 
 		if (choice == trivia[current].correct) {
-
+			numAnswered ++;
+			numCorrect ++;
+			timerNumber = 30;
+			current ++;
+			answers = [];
+			$('#questionDiv').empty();
+			$('#answerDiv').empty();
+			questionWrite();
 		}
-
+		else {
+			numAnswered ++;
+			numIncorrect ++;
+			current ++;
+			timerNumber = 30;
+			answers = [];
+			$('#questionDiv').empty();
+			$('#answerDiv').empty();
+			questionWrite();
+		}
+	});
 	// try to redo it with trivia api
+
+	 // clear answersDiv, check correct answers
+	 // update score in html
+	 // game over
+	 // messages
+	 // timer to go to next question
+	 // styling
+
 
 })
