@@ -11,9 +11,10 @@ body {
 
 }
 
-#answersDiv .btn {
+.answer {
 	background-color: #99ffcc;
 	border: solid #ccccb3 2px;
+	visibility: hidden;
 }
 
 #reset {

@@ -16,6 +16,7 @@ $(document).ready(function () {
 	var currentQuestion = 0;
 
 
+
 	// question object array
 	var trivia = [
 		q1 = {
@@ -74,21 +75,28 @@ $(document).ready(function () {
 		$(elementId).html('<h3>' + thing + "</h3>")
 	};
 
-	// create random array of answers --Work on this
-	answers = trivia[currentQuestion].multChoice;
-
 	// write question function
 	var questionWrite = function () {
-		// write question
-		$('#questionDiv').html('<h2>' + trivia[currentQuestion].question + '</h2>');
-
+		if (currentQuestion <= 7) { 
+			$('#questionDiv').html('<h2>' + trivia[currentQuestion].question + '</h2>');
+			answers = trivia[currentQuestion].multChoice;
+			show('.answer');
+			for (var i = 0; i < answers.length; i++) {
+				$('#answer' + i).html('<h3>' + answers[i] + '</h3>');
+			}
+		}
+		else {
+			gameOver();
+		}
 	};
 
-	var answerWrite = function () {
-		$('#answersDiv').empty();
-		for (var i = 0; i < answers.length; i++) {
-			$('#answersDiv').append('<div class="btn col-lg-12" value="' + i + '"><h3>' + answers[i] + '</h3></div>');
+	// clears the html contents of the answers
+	var answerClear = function () {
+		// $('#answersDiv').empty();
+		for (var i = 0; i < 4; i++) {
+			$('#answer' + i).html('');
 		}
+		hide('.answer');
 	};
 
 	// Timer
@@ -103,18 +111,16 @@ $(document).ready(function () {
 		// hide start button
 		hide('#start');
 
-		//write question
-		questionWrite();
-		// write answers
-		answerWrite();
-		
+		//write question & answers
+		questionWrite();	
 	};
 
+	// clears all content
 	var clearScreen = function () {
 		$('#startTitle').empty();
 		$('#questionDiv').empty();
-		$('#answersDiv').empty();
 		$('#scoreDiv').empty();
+		answerClear();
 	}
 
 	// Timer countdown function
@@ -126,19 +132,7 @@ $(document).ready(function () {
 
 		// when timer reaches 0
 		if (timerNumber == 0) {
-			// stop
-			stop();
-
-			// clear the question and answers
-			clearScreen();
-
-			// interact with game over
-			write('#startTitle', '<h3>Game Over-you ran out of time!</h3>');
-			$('#scoreDiv').append('<h3>Here are your results</h3>');
-			$('#scoreDiv').append('<h3>Total Questions Answered: ' + numAnswered + '</h3>');
-			$('#scoreDiv').append('<h3>Number of correct answers: ' + numCorrect + '</h3>');
-			$('#scoreDiv').append('<h3>Number of incorrect answers: ' + numIncorrect + '</h3>');
-			show('#reset');
+			gameOver();
 		}
 	};
 
@@ -159,58 +153,50 @@ $(document).ready(function () {
 		show('#start');
 		hide('#reset');
 	};
+	
+	var gameOver = function() {
+		// stop the timer
+		stop();
 
-	// click handlers	
-	$('#start').on("click", start);
-	$('#stop').on('click', stop);
-	$('#reset').on('click', reset);
+		// clear the question and answers
+		clearScreen();
+
+		// interact with game over
+		write('#startTitle', '<h3>Game Over!</h3>');
+		$('#scoreDiv').append('<h3>Here are your results</h3>');
+		$('#scoreDiv').append('<h3>Total Questions Answered: ' + numAnswered + '</h3>');
+		$('#scoreDiv').append('<h3>Number of correct answers: ' + numCorrect + '</h3>');
+		$('#scoreDiv').append('<h3>Number of incorrect answers: ' + numIncorrect + '</h3>');
+		show('#reset');
+	};
 
 	//check answer
-	$('#answersDiv').click(function () {
+	$('.answer').click(function () {
 		var clicked = $(this);
-		var value = clicked.val();
-		console.log('============');
-		console.log('clicked: ' + clicked);
-		console.log('value: ' + value);
-		choice = answers[value];
-		console.log('choice: ' + choice);
+		var value = clicked.attr('value');
+		var correctAnswer = trivia[currentQuestion].correct;
 
-		if (choice == trivia[currentQuestion].correct) {
+		if (value == correctAnswer) {
 			numAnswered ++;
-			console.log('============');
-			console.log('numAnswered: ' + numAnswered);
 			numCorrect ++;
-			console.log('numCorrect: ' + numCorrect);
 			timerNumber = 31;
 			currentQuestion ++;
-			console.log('currentQuestion: ' + currentQuestion);
-			answers = [];
-			console.log('answers[]: ' + answers);
-
 			$('#questionDiv').empty();
-			$('#answerDiv').empty();
+			answerClear();
 			questionWrite();
-			answerWrite();
 		}
-		// else {
-		// 	numAnswered ++;
-		// 	nummultChoice ++;
-		// 	currentQuestion ++;
-		// 	timerNumber = 30;
-		// 	answers = [];
-		// 	$('#questionDiv').empty();
-		// 	$('#answerDiv').empty();
-		// 	questionWrite();
-		// }
+		else {
+			numAnswered ++;
+			numIncorrect ++;
+			currentQuestion ++;
+			timerNumber = 30;
+			$('#questionDiv').empty();
+			answerClear();
+			questionWrite();
+		}
 	});
-	// try to redo it with trivia api
 
-	 // clear answersDiv, check correct answers
-	 // update score in html
-	 // game over
-	 // messages
-	 // timer to go to next question
-	 // styling
-
-
+	 // click handlers	
+	$('#start').on("click", start);
+	$('#reset').on('click', reset);
 })
