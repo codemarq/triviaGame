@@ -2,7 +2,7 @@ $(document).ready(function () {
 	// entire javascript goes here
 	
 	// global variables
-
+	$('#image').css('display', 'none');
 	// timer variables
 	var timerNumber = 31;
 
@@ -23,41 +23,49 @@ $(document).ready(function () {
 			question: 'Which colour is not represented on the Mexican flag?',
 			correct: 2,
 			multChoice: ['Green', 'Red', 'Yellow', 'White'],
+			gif: 'assets/images/mex.gif'
 		},
 		q2 = {
 			question: 'What is a "skink"?',
 			correct: 1,
 			multChoice: ['Chocolate Bar', 'Lizard', 'Small River', 'Tree'],
+			gif: 'assets/images/skink.gif'
 		},
 		q3 = {
 			question: 'The ulna is a long bone in which part of the body?',
 			correct: 3,
 			multChoice: ['Ear', 'Leg', 'Neck', 'Arm'],
+			gif: 'assets/images/arms.gif'
 		},
 		q4 = {
 			question: 'Micky Dolenz, Michael Nesmith, Peter Tork, and Davy Jones were members of which band?',
 			correct: 0,
 			multChoice: ['The Monkees', 'The Animals', 'The Beatles', 'The Buggles'],
+			gif: 'assets/images/monkees.gif'
 		},
 		q5 = {
 			question: 'Which steam locomotive carries the number "4472"?',
 			correct: 0,
-			multChoice: ['Flying Scotsman', 'Duchess of Sutherland', 'Evening Star', 'Mallard']
+			multChoice: ['Flying Scotsman', 'Duchess of Sutherland', 'Evening Star', 'Mallard'],
+			gif: 'assets/images/scot.gif'
 		},
 		q6 = {
 			question: 'Digitalis is a plant commonly known as what?',
 			correct: 3,
 			multChoice: ['Campanula', 'Delphinium', 'Penstemon', 'Foxglove'],
+			gif: 'assets/images/digitalis.gif'
 		},
 		q7 = {
 			question: 'What is Lapsang souchong?',
 			correct: 1,
-			multChoice: ['A breed of dog', 'A type of tea', 'A language', 'A mountain range']
+			multChoice: ['A breed of dog', 'A type of tea', 'A language', 'A mountain range'],
+			gif: 'assets/images/tea.gif'
 		},
 		q8 = {
-			question: 'Which retailer is a favourite of Edina and Patsy in "Absolutely Fabulous"?',
-			correct: 1,
-			multChoice: ['Harrods', 'Harvey Nichols', 'John Lewis', 'Selfridges'],
+			question: 'In the TV show "South Park," after Kenny died "for good", this character was the gang\'s first replacement:',
+			correct: 2,
+			multChoice: ['Token', 'Jimmy', 'Butters', 'Timmy'],
+			gif: 'assets/images/butters.gif'
 		}
 	];
 
@@ -170,6 +178,16 @@ $(document).ready(function () {
 		show('#reset');
 	};
 
+	//next question function
+	var nextQuestion = function () {
+		$('#image').css('display', 'none');
+		$('#questionDiv').css('display', 'initial');
+		$('#answersDiv').css('display', 'initial');
+		$('#answerMsg').css('display', 'none');
+		clearInterval();
+		timerNumber = 31;
+	}
+
 	//check answer
 	$('.answer').click(function () {
 		var clicked = $(this);
@@ -177,19 +195,25 @@ $(document).ready(function () {
 		var correctAnswer = trivia[currentQuestion].correct;
 
 		if (value == correctAnswer) {
-			numAnswered ++;
-			numCorrect ++;
-			timerNumber = 31;
-			currentQuestion ++;
 			$('#questionDiv').empty();
 			answerClear();
+			$('#answersDiv').css('display', 'none');
+			$('#questionDiv').css('display', 'none');
+			$('#answerMsg').css('display', 'initial');
+			$('#image').attr('src', trivia[currentQuestion].gif);
+			$('#image').css('display', 'initial');
+			$('#answerMsg').html('<h3> You chose ' + answers[value] + '.</h3> <br><h3>The correct answer was ' + answers[correctAnswer] + '.</h3>');
+			setInterval(nextQuestion, 5 * 1000);
+			numAnswered ++;
+			numCorrect ++;
+			currentQuestion ++;
 			questionWrite();
 		}
 		else {
 			numAnswered ++;
 			numIncorrect ++;
 			currentQuestion ++;
-			timerNumber = 30;
+			timerNumber = 31;
 			$('#questionDiv').empty();
 			answerClear();
 			questionWrite();
