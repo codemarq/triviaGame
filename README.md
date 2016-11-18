@@ -23,4 +23,4 @@ A simple trivia game using HTML, CSS, JavaScript and jQuery.  This was an exerci
 
 
 ## Author
-John-Mike Marquardt
+&copy; 2016 John-Mike Marquardt [Github](https://github.com/codemarq) | [jmmarquardt.com](https://jmmarquardt.com) | [LinkedIn](https://www.linkedin.com/in/jmmarquardt)
